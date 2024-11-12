@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obedy</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .tile {
+            float: left;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+        }
+
+        #tab-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            background-color: skyblue;
+        }
+
+            #tab-container button {
+                flex: 1;
+                position: relative;
+                overflow: hidden;
+                border: none;
+                background-color: transparent;
+                color: white;
+                font-size: 24px;
+                cursor: pointer;
+            }
+
+                #tab-container button::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: radial-gradient(closest-side, deepskyblue, skyblue);
+                    opacity: 0;
+                    transition: opacity 0.2s ease-in-out;
+                    z-index: -1;
+                }
+
+                #tab-container button:hover::before {
+                    opacity: 1;
+                }
+    </style>
+</head>
+<body>
+
+    <div id="tab-container">
+        <button onclick="switchTab(0)">Buddies</button>
+        <button onclick="switchTab(1)">Lanogi</button>
+        <button onclick="switchTab(2)">Food Garden</button>
+        <button onclick="switchTab(3)">Lunch Break</button>
+        <button onclick="switchTab(4)">Inside</button>
+    </div>
+
+    <iframe id="iframe-container-1" src=""></iframe>
+    <iframe id="iframe-container-2" src=""></iframe>
+    <iframe id="iframe-container-3" src=""></iframe>
+    <iframe id="iframe-container-4" src=""></iframe>
+    <iframe id="iframe-container-5" src=""></iframe>
+
+    <script>
+// Array of iframe URLs
+var iframeUrls = [
+  "https://restauracie.sme.sk/restauracia/buddies_7319-ruzinov_2980/denne-menu",
+  "https://www.lanogi.sk/denne-menu/",
+  "https://www.foodgarden.sk/denne-menu/",
+  "http://www.lunch-break.sk/menu-apollo/",
+  "https://inside.restaurant/online-menu/section:obedove-menu"
+];
+
+var currentTabIndex = 0;
+var iframeContainers = [
+  document.getElementById("iframe-container-1"),
+  document.getElementById("iframe-container-2"),
+  document.getElementById("iframe-container-3"),
+  document.getElementById("iframe-container-4"),
+  document.getElementById("iframe-container-5")
+];
+
+// Function to switch to a specific tab
+function switchTab(tabIndex) {
+  currentTabIndex = tabIndex;
+  updateIframe();
+}
+
+// Function to update the iframe source
+function updateIframe() {
+  for (var i = 0; i < iframeContainers.length; i++) {
+    if (i === currentTabIndex) {
+      iframeContainers[i].style.display = "block";
+    } else {
+      iframeContainers[i].style.display = "none";
+    }
+  }
+}
+
+// Preload all iframes
+for (var i = 0; i < iframeContainers.length; i++) {
+  iframeContainers[i].src = iframeUrls[i];
+}
+
+// Initially load the first iframe
+updateIframe();
+    </script>
+</body>
+</html>
